@@ -11,3 +11,7 @@ GET http://localhost:3001/api/info HTTP/1.1
 ################
 
 GET http://localhost:3001/api/person/1 HTTP/1.1
+
+################
+
+DELETE http://localhost:3001/api/person/5 HTTP/1.1
