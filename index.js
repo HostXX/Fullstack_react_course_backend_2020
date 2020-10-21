@@ -3,13 +3,10 @@ const app = express()
 let persons = require('./personsDb')
 require('dotenv').config()
 
-
 const generateId = () => {
-    const id = Math.floor(Math.random() * 50000)
-    return id
-  }
-
-
+  const id = Math.floor(Math.random() * 50000)
+  return id
+}
 
 app.use(express.json())
 const PORT = process.env.APP_PORT
@@ -60,24 +57,31 @@ app.delete('/api/person/:id', (req, res) => {
 })
 
 app.post('/api/persons', (req, res) => {
-    const body = req.body
+  const body = req.body
+  const entryExist = persons.find(person => person.name === body.name)
 
-    // if (typeof body.content !== 'String' && body.content === '') {
-    //   console.log('is not a string or is empty')
-    //   return res.status(400).json({
-    //     error: 'Content missing or bad content'
-    //   })
-    // }
+  if (entryExist) {
+    console.log(entryExist)
+    return res.status(400).json({
+      error: 'Name must be unique'
+    })
+  }
 
-    const newPerson = {
-      name: body.name,
-      phone: body.phone,
-      id: generateId()
-    }
+  if (body.name === '' || body.phone === '') {
+    console.log('Phone or name is empty')
+    return res.status(400).json({
+      error: "Phone or name can't be empty"
+    })
+  }
 
-    persons = persons.concat(newPerson)
-    res.json(newPerson).end()
- 
+  const newPerson = {
+    name: body.name,
+    phone: body.phone,
+    id: generateId()
+  }
+
+  persons = persons.concat(newPerson)
+  res.json(newPerson).end()
 })
 
 app.listen(PORT, () => console.log(`App listening on port: ${PORT}`))
