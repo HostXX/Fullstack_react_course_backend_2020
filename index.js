@@ -1,5 +1,6 @@
 const express = require('express')
 const app = express()
+const morgan = require('morgan')
 let persons = require('./personsDb')
 require('dotenv').config()
 
@@ -9,6 +10,8 @@ const generateId = () => {
 }
 
 app.use(express.json())
+app.use(morgan('tiny'))
+
 const PORT = process.env.APP_PORT
 
 console.log(PORT)
