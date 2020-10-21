@@ -17,6 +17,16 @@ app.get('/api/notes',(req,res) => {
     res.json(persons)
 })
 
+app.get('/api/info',(req,res) => {
+    console.log()
+    res.send(
+       `<h5> The phonebook has info for ${persons.length} people </h5>
+        <h4>${new Date(Date.now())}</h4>
+       `
+    )
+})
+
+
 
 
 app.listen(PORT,() => console.log(`App listening on port: ${PORT}`))
