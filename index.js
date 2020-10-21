@@ -10,7 +10,20 @@ const generateId = () => {
 }
 
 app.use(express.json())
-app.use(morgan('tiny'))
+app.use(
+  morgan((tokens, req, res) => {
+    return [
+      tokens.method(req, res),
+      tokens.url(req, res),
+      tokens.status(req, res),
+      tokens.res(req, res, 'content-length'),
+      '-',
+      tokens['response-time'](req, res),
+      'ms',
+      tokens.method(req, res) === 'POST' ? JSON.stringify(req.body) : ''
+    ].join(' ')
+  })
+)
 
 const PORT = process.env.APP_PORT
 
@@ -21,12 +34,10 @@ app.get('/', (req, res) => {
 })
 
 app.get('/api/persons', (req, res) => {
-  console.log()
   res.json(persons)
 })
 
 app.get('/api/info', (req, res) => {
-  console.log()
   res.send(
     `<h5> The phonebook has info for ${persons.length} people </h5>
         <h4>${new Date(Date.now())}</h4>
@@ -64,14 +75,12 @@ app.post('/api/persons', (req, res) => {
   const entryExist = persons.find(person => person.name === body.name)
 
   if (entryExist) {
-    console.log(entryExist)
     return res.status(400).json({
       error: 'Name must be unique'
     })
   }
 
   if (body.name === '' || body.phone === '') {
-    console.log('Phone or name is empty')
     return res.status(400).json({
       error: "Phone or name can't be empty"
     })
