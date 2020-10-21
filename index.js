@@ -12,7 +12,7 @@ app.get('/',(req,res) => {
     return res.send('<h1>Root</h1>')
 })
 
-app.get('/api/notes',(req,res) => {
+app.get('/api/persons',(req,res) => {
     console.log()
     res.json(persons)
 })
@@ -25,6 +25,17 @@ app.get('/api/info',(req,res) => {
        `
     )
 })
+
+app.get('/api/person/:id', (req, res) => {
+    const id = Number(req.params.id)
+    let person = persons.find(person => person.id === id)
+  
+    if (person) {
+      res.json(person)
+    } else {
+      res.status(404).end()
+    }
+  })
 
 
 
