@@ -1,6 +1,6 @@
 const express = require('express')
 const app = express()
-let notes = require('./notesDb')
+let persons = require('./personsDb')
 require('dotenv').config()
 
 app.use(express.json())
@@ -14,7 +14,7 @@ app.get('/',(req,res) => {
 
 app.get('/api/notes',(req,res) => {
     console.log()
-    res.json(notes)
+    res.json(persons)
 })
 
 
