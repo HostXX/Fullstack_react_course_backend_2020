@@ -24,6 +24,9 @@ const generateId = () => {
   const id = Math.floor(Math.random() * 50000)
   return id
 }
+
+
+app.use(express.static('build'))
 app.use(cors())
 app.use(express.json())
 app.use(
@@ -41,13 +44,6 @@ app.use(
   })
 )
 
-
-
-app.get('/', (req, res) => {
-  return res.json({
-    message : "root"
-  })
-})
 
 app.get('/api/person', (req, res) => {
   return res.json(persons)
