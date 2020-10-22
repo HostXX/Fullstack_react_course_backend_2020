@@ -26,10 +26,13 @@ app.use(
   })
 )
 
-const PORT = process.env.APP_PORT
+const PORT = process.env.APP_PORT || 3001
 
 console.log(PORT)
 
+app.get('/', (req, res) => {
+  res.send('hola')
+})
 
 app.get('/api/person', (req, res) => {
   res.json(persons)
