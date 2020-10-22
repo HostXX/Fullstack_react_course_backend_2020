@@ -112,9 +112,10 @@ app.post('/api/person', (req, res) => {
   res.json(newPerson).end()
 })
 
+
 const host = '0.0.0.0'
 const port = process.env.PORT || 5000
 
-console.log(port)
 
-app.listen(port,host)
+
+app.listen(port,host,() => {console.log(port)})
