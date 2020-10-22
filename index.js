@@ -1,10 +1,25 @@
 const express = require('express')
 const app = express()
 const morgan = require('morgan')
-let persons = require('./personsDb')
 const cors = require('cors')
 require('dotenv').config()
-
+let persons  = [ 
+  {
+    "name": "roberto arias",
+    "phone": "555445445",
+    "id": 0,
+  },
+  {
+    "name": "sitrus magnus",
+    "phone": "212312314141",
+    "id": 1,
+  },
+  {
+    "name": "viel",
+    "phone": "68746565",
+    "id": 2
+  }
+]
 const generateId = () => {
   const id = Math.floor(Math.random() * 50000)
   return id
@@ -98,7 +113,7 @@ app.post('/api/person', (req, res) => {
 })
 
 const host = '0.0.0.0'
-const port = process.env.APP_PORT || 5000
+const port = process.env.PORT || 5000
 
 console.log(port)
 
