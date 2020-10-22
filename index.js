@@ -26,9 +26,7 @@ app.use(
   })
 )
 
-const PORT = process.env.APP_PORT || 3001
 
-console.log(PORT)
 
 app.get('/', (req, res) => {
   res.send('hola')
@@ -96,5 +94,9 @@ app.post('/api/person', (req, res) => {
   persons = persons.concat(newPerson)
   res.json(newPerson).end()
 })
+
+const PORT = process.env.APP_PORT || 3003
+
+console.log(PORT)
 
 app.listen(PORT, () => console.log(`App listening on port: ${PORT}`))
