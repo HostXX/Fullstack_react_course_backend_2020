@@ -2,13 +2,14 @@ const express = require('express')
 const app = express()
 const morgan = require('morgan')
 let persons = require('./personsDb')
+const cors = require('cors')
 require('dotenv').config()
 
 const generateId = () => {
   const id = Math.floor(Math.random() * 50000)
   return id
 }
-
+app.use(cors())
 app.use(express.json())
 app.use(
   morgan((tokens, req, res) => {
@@ -29,11 +30,8 @@ const PORT = process.env.APP_PORT
 
 console.log(PORT)
 
-app.get('/', (req, res) => {
-  return res.send('<h1>Root</h1>')
-})
 
-app.get('/api/persons', (req, res) => {
+app.get('/api/person', (req, res) => {
   res.json(persons)
 })
 
@@ -70,7 +68,7 @@ app.delete('/api/person/:id', (req, res) => {
   return res.status(204).end()
 })
 
-app.post('/api/persons', (req, res) => {
+app.post('/api/person', (req, res) => {
   const body = req.body
   const entryExist = persons.find(person => person.name === body.name)
 
