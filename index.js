@@ -29,7 +29,9 @@ app.use(
 
 
 app.get('/', (req, res) => {
-  res.send('hola')
+  res.json({
+    message : "root"
+  })
 })
 
 app.get('/api/person', (req, res) => {
@@ -96,7 +98,7 @@ app.post('/api/person', (req, res) => {
 })
 
 const host = '0.0.0.0'
-const port = process.env.APP_PORT || 3003
+const port = process.env.APP_PORT || 5000
 
 console.log(port)
 
