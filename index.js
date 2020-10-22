@@ -29,13 +29,13 @@ app.use(
 
 
 app.get('/', (req, res) => {
-  res.json({
+  return res.json({
     message : "root"
   })
 })
 
 app.get('/api/person', (req, res) => {
-  res.json(persons)
+  return res.json(persons)
 })
 
 app.get('/api/info', (req, res) => {
@@ -102,4 +102,4 @@ const port = process.env.APP_PORT || 5000
 
 console.log(port)
 
-app.listen(port,host, () => console.log(`App listening on port: ${port}`))
+app.listen(port,host)
