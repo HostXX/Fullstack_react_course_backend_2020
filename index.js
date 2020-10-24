@@ -4,7 +4,8 @@ const morgan = require('morgan')
 const cors = require('cors')
 require('dotenv').config()
 const phoneEntrie = require('./database/models/phoneEntrie')
-// const {errorHandler, notFoundHandler} = require('./middlewares')
+
+const {errorHandler, notFoundHandler} = require('./middlewares')
 
 let persons = [
   {
@@ -24,11 +25,7 @@ let persons = [
   }
 ]
 
-const notFoundHandler = (req, res) => {
-  res.status(404).send({ error: 'unknown endpoint' })
-}
-
-// app.use(express.static('build'))
+app.use(express.static('build'))
 app.use(cors())
 app.use(express.json())
 app.use(
@@ -81,7 +78,7 @@ app.delete('/api/person/:id', (req, res, next) => {
 })
   
 
-app.post('/api/person', (req, res) => {
+app.post('/api/person', (req, res,next) => {
   const body = req.body
 
   if (body.name === '' || body.phone === '') {
@@ -104,8 +101,8 @@ app.post('/api/person', (req, res) => {
     .catch(err => console.log(err))
 })
 
-// app.use(notFoundHandler)
-// app.use(errorHandler)
+app.use(notFoundHandler)
+app.use(errorHandler)
 
 // const host = '0.0.0.0'
 const port = process.env.PORT || 5000
