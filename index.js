@@ -3,6 +3,9 @@ const app = express()
 const morgan = require('morgan')
 const cors = require('cors')
 require('dotenv').config()
+
+const { generateId } = require('./utils')
+
 let persons  = [ 
   {
     "name": "roberto arias",
@@ -20,11 +23,6 @@ let persons  = [
     "id": 2
   }
 ]
-const generateId = () => {
-  const id = Math.floor(Math.random() * 50000)
-  return id
-}
-
 
 app.use(express.static('build'))
 app.use(cors())
@@ -103,6 +101,8 @@ app.post('/api/person', (req, res) => {
     phone: body.phone,
     id: generateId()
   }
+
+
 
   persons = persons.concat(newPerson)
   res.json(newPerson).end()
