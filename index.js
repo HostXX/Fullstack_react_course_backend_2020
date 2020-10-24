@@ -4,8 +4,7 @@ const morgan = require('morgan')
 const cors = require('cors')
 require('dotenv').config()
 const phoneEntrie = require('./database/models/phoneEntrie')
-
-const { generateId } = require('./utils')
+// const {errorHandler, notFoundHandler} = require('./middlewares')
 
 let persons = [
   {
@@ -24,6 +23,10 @@ let persons = [
     id: 2
   }
 ]
+
+const notFoundHandler = (req, res) => {
+  res.status(404).send({ error: 'unknown endpoint' })
+}
 
 // app.use(express.static('build'))
 app.use(cors())
@@ -58,7 +61,7 @@ app.get('/api/info', (req, res) => {
 })
 
 app.get('/api/person/:id', (req, res) => {
-  const id = Number(req.params.id)
+  const id = req.params.id
   let person = persons.find(person => person.id === id)
 
   if (person) {
@@ -68,30 +71,18 @@ app.get('/api/person/:id', (req, res) => {
   }
 })
 
-app.delete('/api/person/:id', (req, res) => {
-  const id = Number(req.params.id)
-
-  const isDeleted = persons.find(person => person.id === id)
-
-  if (isDeleted === undefined) {
-    return res.status(204).end()
-  }
-
-  persons = persons.filter(person => person.id !== id)
-
-  return res.status(204).end()
+app.delete('/api/person/:id', (req, res, next) => {
+  const id = req.params.id
+  phoneEntrie.findByIdAndRemove(id)
+    .then(result => {
+      res.status(204).end()
+    })
+    .catch(err => next(err))
 })
+  
 
 app.post('/api/person', (req, res) => {
   const body = req.body
-
-  // const entryExist
-
-  // if (entryExist) {
-  //   return res.status(400).json({
-  //     error: 'Name must be unique'
-  //   })
-  // }
 
   if (body.name === '' || body.phone === '') {
     return res.status(400).json({
@@ -112,6 +103,9 @@ app.post('/api/person', (req, res) => {
     })
     .catch(err => console.log(err))
 })
+
+// app.use(notFoundHandler)
+// app.use(errorHandler)
 
 // const host = '0.0.0.0'
 const port = process.env.PORT || 5000
