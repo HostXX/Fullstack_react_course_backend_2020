@@ -3,28 +3,29 @@ const app = express()
 const morgan = require('morgan')
 const cors = require('cors')
 require('dotenv').config()
+const phoneEntrie = require('./database/models/phoneEntrie')
 
 const { generateId } = require('./utils')
 
-let persons  = [ 
+let persons = [
   {
-    "name": "roberto arias",
-    "phone": "555445445",
-    "id": 0,
+    name: 'roberto arias',
+    phone: '555445445',
+    id: 0
   },
   {
-    "name": "sitrus magnus",
-    "phone": "212312314141",
-    "id": 1,
+    name: 'sitrus magnus',
+    phone: '212312314141',
+    id: 1
   },
   {
-    "name": "viel",
-    "phone": "68746565",
-    "id": 2
+    name: 'viel',
+    phone: '68746565',
+    id: 2
   }
 ]
 
-app.use(express.static('build'))
+// app.use(express.static('build'))
 app.use(cors())
 app.use(express.json())
 app.use(
@@ -42,9 +43,10 @@ app.use(
   })
 )
 
-
 app.get('/api/person', (req, res) => {
-  return res.json(persons)
+  phoneEntrie.find({}).then(entries => {
+    res.json(entries)
+  })
 })
 
 app.get('/api/info', (req, res) => {
@@ -96,22 +98,23 @@ app.post('/api/person', (req, res) => {
     })
   }
 
-  const newPerson = {
+  const newPhoneEntrie = new phoneEntrie({
     name: body.name,
-    phone: body.phone,
-    id: generateId()
-  }
+    phone: body.phone
+  })
 
-
-
-  persons = persons.concat(newPerson)
-  res.json(newPerson).end()
+  newPhoneEntrie
+    .save()
+    .then(entrie => {
+      console.log('entrie saved!,', entrie)
+      res.json(entrie).end()
+    })
+    .catch(err => console.log(err))
 })
 
-
-const host = '0.0.0.0'
+// const host = '0.0.0.0'
 const port = process.env.PORT || 5000
 
-
-
-app.listen(port,host,() => {console.log(port)})
+app.listen(port, () => {
+  console.log(port)
+})
