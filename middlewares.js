@@ -13,11 +13,11 @@ const errorHandler = (err, req, res, next) => {
     return res.status(400).send({ error: 'malformatted id' })
   } 
 
-    // res.status(err.status || 500)
-    // return res.json({
-    //   message: 'Something broke!',
-    //   stack: process.env.MODE === 'development' ? err.stack : {}
-    // })
+    res.status(err.status || 500)
+    return res.json({
+      message: 'Something broke!',
+      stack: process.env.MODE === 'development' ? err.stack : {}
+    })
 
     next(err)
   

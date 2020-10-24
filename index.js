@@ -101,6 +101,23 @@ app.post('/api/person', (req, res,next) => {
     .catch(err => console.log(err))
 })
 
+app.put('/api/person/:id', (req, res) => {
+  const id = req.params.id
+  const body = req.body
+
+  const newPhoneEntrie = {
+    name: body.name,
+    phone: body.phone
+  }
+
+  phoneEntrie.findByIdAndUpdate(id, newPhoneEntrie, { new: true })
+    .then(updatedPhoneEntrie => {
+      res.json(updatedPhoneEntrie)
+    })
+    .catch(err => next(err))
+})
+
+
 app.use(notFoundHandler)
 app.use(errorHandler)
 
