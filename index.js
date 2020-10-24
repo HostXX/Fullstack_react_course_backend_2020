@@ -84,13 +84,14 @@ app.delete('/api/person/:id', (req, res) => {
 
 app.post('/api/person', (req, res) => {
   const body = req.body
-  const entryExist = persons.find(person => person.name === body.name)
 
-  if (entryExist) {
-    return res.status(400).json({
-      error: 'Name must be unique'
-    })
-  }
+  // const entryExist
+
+  // if (entryExist) {
+  //   return res.status(400).json({
+  //     error: 'Name must be unique'
+  //   })
+  // }
 
   if (body.name === '' || body.phone === '') {
     return res.status(400).json({
