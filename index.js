@@ -59,13 +59,18 @@ app.get('/api/info', (req, res) => {
 
 app.get('/api/person/:id', (req, res) => {
   const id = req.params.id
-  let person = persons.find(person => person.id === id)
-
-  if (person) {
-    res.json(person)
-  } else {
-    res.status(404).end()
-  }
+  phoneEntrie.findById(id)
+    .then(note => {
+      if (note) {
+        return res.json(note)
+      } else {
+        return res.status(404).end()
+      }
+    })
+    .catch((err) => {
+      console.log(err)
+     next(err)
+    })
 })
 
 app.delete('/api/person/:id', (req, res, next) => {

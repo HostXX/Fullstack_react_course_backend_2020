@@ -18,9 +18,6 @@ const errorHandler = (err, req, res, next) => {
       message: 'Something broke!',
       stack: process.env.MODE === 'development' ? err.stack : {}
     })
-
-    next(err)
-  
 }
 
 const notFoundHandler = (req, res) => {
