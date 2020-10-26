@@ -103,7 +103,10 @@ app.post('/api/person', (req, res,next) => {
       console.log('entrie saved!,', entrie)
       res.json(entrie).end()
     })
-    .catch(err => console.log(err))
+    .catch(err => {
+      // console.log(err)
+      next(err)
+    })
 })
 
 app.put('/api/person/:id', (req, res) => {
