@@ -22,11 +22,15 @@ const noteSchema = new mongoose.Schema({
   name: {
     type: String,
     required: true,
-    unique: true
+    unique: true,
+    trim: true,
+    minlength:3
   },
   phone: {
     type: String,
+    trim: true,
     required: true,
+    minlength:8
   },
 })
 
