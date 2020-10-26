@@ -109,16 +109,14 @@ app.post('/api/person', (req, res,next) => {
     })
 })
 
-app.put('/api/person/:id', (req, res) => {
+app.put('/api/person/:id', (req, res,next) => {
   const id = req.params.id
   const body = req.body
 
   const newPhoneEntrie = {
-    name: body.name,
-    phone: body.phone
+    $set : {phone: body.phone}
   }
-
-  phoneEntrie.findByIdAndUpdate(id, newPhoneEntrie, { new: true })
+  phoneEntrie.findByIdAndUpdate(id, newPhoneEntrie, { new: true, runValidators: true  })
     .then(updatedPhoneEntrie => {
       res.json(updatedPhoneEntrie)
     })

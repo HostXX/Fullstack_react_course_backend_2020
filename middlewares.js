@@ -12,7 +12,7 @@ const errorHandler = (err, req, res, next) => {
   }
 
   if (err.name === 'CastError') {
-    return res.status(400).send({
+    return res.status(400).json({
       message: 'malformatted id',
       stack: process.env.MODE === 'development' ? err.stack : {}
     })
@@ -22,7 +22,7 @@ const errorHandler = (err, req, res, next) => {
   if (err.name === 'ValidationError') {
     if (err.errors.name) {
       console.log('inside name')
-      return res.status(409).send({
+      return res.status(403).json({
         message: `${err.errors.name.properties.message}`,
         stack: process.env.MODE === 'development' ? err.stack : {}
       })
@@ -30,7 +30,9 @@ const errorHandler = (err, req, res, next) => {
 
     if (err.errors.phone) {
       console.log('inside phone')
-      return res.status(409).send({
+      console.log(err.errors.phone.properties.message)
+      
+      return res.status(403).json({
         message: `${err.errors.phone.properties.message}`,
         stack: process.env.MODE === 'development' ? err.stack : {}
       })
