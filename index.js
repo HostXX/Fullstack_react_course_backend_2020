@@ -43,6 +43,12 @@ app.use(
   })
 )
 
+app.get('/',(req,res)=>{
+  res.json({
+    message : 'root'
+  })
+})
+
 app.get('/api/person', (req, res) => {
   phoneEntrie.find({}).then(entries => {
     res.json(entries)
@@ -50,11 +56,14 @@ app.get('/api/person', (req, res) => {
 })
 
 app.get('/api/info', (req, res) => {
-  res.send(
-    `<h5> The phonebook has info for ${persons.length} people </h5>
-        <h4>${new Date(Date.now())}</h4>
-       `
-  )
+phoneEntrie.find({}).then(entries => {
+    res.send(
+      `<h5> The phonebook has info for ${entries.length} people </h5>
+          <h4>${new Date(Date.now())}</h4>
+         `
+    )
+  })
+  
 })
 
 app.get('/api/person/:id', (req, res) => {
