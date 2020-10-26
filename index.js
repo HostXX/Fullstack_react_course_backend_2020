@@ -43,11 +43,6 @@ app.use(
   })
 )
 
-app.get('/',(req,res)=>{
-  res.json({
-    message : 'root'
-  })
-})
 
 app.get('/api/person', (req, res) => {
   phoneEntrie.find({}).then(entries => {
