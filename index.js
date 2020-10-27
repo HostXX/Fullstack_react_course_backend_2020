@@ -27,19 +27,25 @@ app.use(
 )
 
 
-app.get('/api/person', (req, res) => {
+app.get('/api/person', (req, res, next) => {
     phoneEntrie.find({}).then(entries => {
         res.json(entries)
+    }).catch((err) => {
+        console.log(err)
+        next(err)
     })
 })
 
-app.get('/api/info', (req, res) => {
+app.get('/api/info', (req, res,next) => {
     phoneEntrie.find({}).then(entries => {
         res.send(
             `<h5> The phonebook has info for ${entries.length} people </h5>
           <h4>${new Date(Date.now())}</h4>
          `
-        )
+        ).catch((err) => {
+            console.log(err)
+            next(err)
+        })
     })
 
 })
